@@ -10,58 +10,58 @@ class MeiTVApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Mei TV")
-        
+
         # Pencere boyutu ve arka plan rengi
         self.root.geometry("600x700")
-        self.root.configure(bg="#f0f2f5")
-        
+        self.root.configure(bg="#121212")  # Koyu arka plan rengi
+
         # Ana başlık fontu ve rengi
-        self.label_font = tkfont.Font(family="Helvetica", size=20, weight="bold")
-        self.label = tk.Label(root, text="Mei TV'ye Hoşgeldiniz!", font=self.label_font, bg="#f0f2f5", fg="#2e3b4e")
-        self.label.pack(pady=20)
+        self.label_font = tkfont.Font(family="Helvetica", size=24, weight="bold")
+        self.label = tk.Label(root, text="Mei TV'ye Hoşgeldiniz!", font=self.label_font, bg="#121212", fg="#FF6F00")
+        self.label.pack(pady=30)
 
         # Dizi adı girişi
-        self.dizi_isimi_label = tk.Label(root, text="İzlemek istediğiniz diziyi giriniz:", font=("Arial", 12), bg="#f0f2f5", fg="#333")
+        self.dizi_isimi_label = tk.Label(root, text="İzlemek istediğiniz diziyi giriniz:", font=("Arial", 14), bg="#121212", fg="#ffffff")
         self.dizi_isimi_label.pack(pady=10)
-        
-        self.dizi_isimi_entry = tk.Entry(root, width=50, font=("Arial", 12))
+
+        self.dizi_isimi_entry = tk.Entry(root, width=50, font=("Arial", 14), bg="#333333", fg="#ffffff", bd=0, relief="solid", highlightthickness=2)
         self.dizi_isimi_entry.pack(pady=10)
         self.dizi_isimi_entry.bind("<Return>", self.dizi_ara)
 
         # Ara butonu (animasyon ve stil)
-        self.ara_button = tk.Button(root, text="Ara", command=self.dizi_ara, relief="flat", bg="#56CCF2", fg="white", font=("Arial", 14), width=20)
+        self.ara_button = tk.Button(root, text="Ara", command=self.dizi_ara, relief="flat", bg="#FF6F00", fg="white", font=("Arial", 16), width=20, height=2, bd=0, highlightthickness=0)
         self.ara_button.pack(pady=15)
-        self.ara_button.bind("<Enter>", lambda e: self.ara_button.config(bg="#45a6d9"))
-        self.ara_button.bind("<Leave>", lambda e: self.ara_button.config(bg="#56CCF2"))
+        self.ara_button.bind("<Enter>", lambda e: self.ara_button.config(bg="#FF8C00"))
+        self.ara_button.bind("<Leave>", lambda e: self.ara_button.config(bg="#FF6F00"))
 
         # Result listbox with scroll bar
-        self.result_listbox_frame = tk.Frame(root)
+        self.result_listbox_frame = tk.Frame(root, bg="#121212")
         self.result_listbox_frame.pack(pady=10)
-        
-        self.result_listbox = tk.Listbox(self.result_listbox_frame, width=50, height=6, font=("Arial", 12), bg="#e6e6e6", selectmode=tk.SINGLE)
-        self.result_listbox.pack(side="left", fill="y", padx=5)
+
+        self.result_listbox = tk.Listbox(self.result_listbox_frame, width=50, height=6, font=("Arial", 12), bg="#2e2e2e", fg="#ffffff", selectmode=tk.SINGLE, bd=0, highlightthickness=0)
+        self.result_listbox.pack(side="left", fill="y", padx=5, pady=5)
 
         self.scrollbar = tk.Scrollbar(self.result_listbox_frame, orient="vertical", command=self.result_listbox.yview)
         self.scrollbar.pack(side="right", fill="y")
         self.result_listbox.config(yscrollcommand=self.scrollbar.set)
 
         # Sezon listbox with scroll bar
-        self.sezon_listbox_frame = tk.Frame(root)
+        self.sezon_listbox_frame = tk.Frame(root, bg="#121212")
         self.sezon_listbox_frame.pack(pady=10)
 
-        self.sezon_listbox = tk.Listbox(self.sezon_listbox_frame, width=50, height=6, font=("Arial", 12), bg="#e6e6e6", selectmode=tk.SINGLE)
-        self.sezon_listbox.pack(side="left", fill="y", padx=5)
+        self.sezon_listbox = tk.Listbox(self.sezon_listbox_frame, width=50, height=6, font=("Arial", 12), bg="#2e2e2e", fg="#ffffff", selectmode=tk.SINGLE, bd=0, highlightthickness=0)
+        self.sezon_listbox.pack(side="left", fill="y", padx=5, pady=5)
 
         self.scrollbar2 = tk.Scrollbar(self.sezon_listbox_frame, orient="vertical", command=self.sezon_listbox.yview)
         self.scrollbar2.pack(side="right", fill="y")
         self.sezon_listbox.config(yscrollcommand=self.scrollbar2.set)
 
         # Bölüm listbox with scroll bar
-        self.bolum_listbox_frame = tk.Frame(root)
+        self.bolum_listbox_frame = tk.Frame(root, bg="#121212")
         self.bolum_listbox_frame.pack(pady=10)
 
-        self.bolum_listbox = tk.Listbox(self.bolum_listbox_frame, width=50, height=6, font=("Arial", 12), bg="#e6e6e6", selectmode=tk.SINGLE)
-        self.bolum_listbox.pack(side="left", fill="y", padx=5)
+        self.bolum_listbox = tk.Listbox(self.bolum_listbox_frame, width=50, height=6, font=("Arial", 12), bg="#2e2e2e", fg="#ffffff", selectmode=tk.SINGLE, bd=0, highlightthickness=0)
+        self.bolum_listbox.pack(side="left", fill="y", padx=5, pady=5)
 
         self.scrollbar3 = tk.Scrollbar(self.bolum_listbox_frame, orient="vertical", command=self.bolum_listbox.yview)
         self.scrollbar3.pack(side="right", fill="y")
