@@ -27,11 +27,11 @@ def setup_driver():
 # Ağ loglarını toplama ve çerezleri kaydetme
 def capture_network_logs_and_cookies(driver, url_list):
     try:
+        document_urls = []  # Bulunan URL'leri burada toplayacağız
         for url in url_list:
             driver.get(url)  # Sayfayı aç
 
             logs = driver.get_log("performance")
-            document_urls = []
             start_time = time.time()
 
             for entry in logs:
@@ -57,20 +57,24 @@ def capture_network_logs_and_cookies(driver, url_list):
                         break  # Bulunduğunda işleme son ver
 
             # Eğer burada hiçbir şey bulunamazsa, diğer URL'yi deneyelim
-            if not document_urls:
+            if document_urls:
+                # Eğer bir kaynak bulunduysa, diğer URL'leri denememize gerek yok
+                break
+            else:
                 print(f"{url} üzerinde kaynak bulunamadı, başka birini deniyoruz...")
+
+        # Eğer kaynak bulunduysa, player.py'yi çağır
+        if document_urls:
+            try:
+                subprocess.run(["python3", "player.py"], check=True)
+            except Exception as e:
+                print(f"player.py çağrılırken bir hata oluştu: {e}")
 
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
     finally:
         # Driver'ı kapat
         driver.quit()
-
-        # player.py'yi çağır
-        try:
-            subprocess.run(["python3", "player.py"], check=True)
-        except Exception as e:
-            print(f"player.py çağrılırken bir hata oluştu: {e}")
 
 # Ana program
 if __name__ == "__main__":
