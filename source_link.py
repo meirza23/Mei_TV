@@ -40,26 +40,32 @@ def capture_network_logs(driver, url):
     try:
         # Sayfayı aç
         driver.get(url)
-        time.sleep(5)  # Sayfanın yüklenmesini bekle
 
-        # Performans loglarını al
         logs = driver.get_log("performance")
-        network_logs = []
+        document_urls = []
+        start_time = time.time()
 
         for entry in logs:
+
+            if time.time() - start_time > 180:
+                print("3 dakika boyunca link bulunamadı. Döngü sonlandırılıyor.")
+                break  # 3 dakika geçtiği için döngüden çık
+
             log = json.loads(entry["message"])  # JSON formatında çöz
             message = log["message"]
             method = message.get("method", "")
+            type_ = message.get("params", {}).get("type", "")
+            document_url = message.get("params", {}).get("documentURL", "")
 
-            # Sadece ağ isteklerini filtrele
-            if method == "Network.requestWillBeSent":
-                network_logs.append(message)
-
-        # Ağ loglarını bir JSON dosyasına yazdır
-        with open("network_logs.json", "w") as file:
-            json.dump(network_logs, file, indent=4)
-
-        print("Ağ logları başarıyla kaydedildi: network_logs.json")
+            # Sadece "document" türündeki ve "documentURL" bulunan ağ isteklerini filtrele
+            if method == "Network.requestWillBeSent" and type_ == "Document" and document_url:
+                # Eğer documentURL https://vidmoly.to ile başlıyorsa ve .html ile bitiyorsa, işlem bitir
+                if document_url.startswith("https://vidmoly.to") and document_url.endswith(".html"):
+                    document_urls.append(document_url)
+                    print(f"İlgili URL bulundu: {document_url}")
+                    break  # Daha fazla log almaya gerek yok, çıkıyoruz
+                else:
+                    document_urls.append(document_url)
 
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
@@ -70,6 +76,6 @@ def capture_network_logs(driver, url):
 
 # Ana program
 if __name__ == "__main__":
-    url = "https://www.dizibox.plus/strike-5-sezon-3-bolum-izle/2/"
+    url = "https://www.dizibox.plus/strike-4-sezon-2-bolum-izle/3/"
     driver = setup_driver()
     capture_network_logs(driver, url)
