@@ -13,16 +13,13 @@ class MeiTVApp:
         self.root = root
         self.root.title("Mei TV")
 
-        # Pencere boyutu ve arka plan rengi
         self.root.geometry("600x700")
-        self.root.configure(bg="#121212")  # Koyu arka plan rengi
+        self.root.configure(bg="#121212")  
 
-        # Ana başlık fontu ve rengi
         self.label_font = tkfont.Font(family="Helvetica", size=24, weight="bold")
         self.label = tk.Label(root, text="Mei TV'ye Hoşgeldiniz!", font=self.label_font, bg="#121212", fg="#FF6F00")
         self.label.pack(pady=30)
 
-        # Dizi adı girişi
         self.dizi_isimi_label = tk.Label(root, text="İzlemek istediğiniz diziyi giriniz:", font=("Arial", 14), bg="#121212", fg="#ffffff")
         self.dizi_isimi_label.pack(pady=10)
 
@@ -30,13 +27,11 @@ class MeiTVApp:
         self.dizi_isimi_entry.pack(pady=10)
         self.dizi_isimi_entry.bind("<Return>", self.dizi_ara)
 
-        # Ara butonu (animasyon ve stil)
         self.ara_button = tk.Button(root, text="Ara", command=self.dizi_ara, relief="flat", bg="#FF6F00", fg="white", font=("Arial", 16), width=20, height=2, bd=0, highlightthickness=0)
         self.ara_button.pack(pady=15)
         self.ara_button.bind("<Enter>", lambda e: self.ara_button.config(bg="#FF8C00"))
         self.ara_button.bind("<Leave>", lambda e: self.ara_button.config(bg="#FF6F00"))
 
-        # Result listbox with scroll bar
         self.result_listbox_frame = tk.Frame(root, bg="#121212")
         self.result_listbox_frame.pack(pady=10)
 
@@ -47,7 +42,6 @@ class MeiTVApp:
         self.scrollbar.pack(side="right", fill="y")
         self.result_listbox.config(yscrollcommand=self.scrollbar.set)
 
-        # Sezon listbox with scroll bar
         self.sezon_listbox_frame = tk.Frame(root, bg="#121212")
         self.sezon_listbox_frame.pack(pady=10)
 
@@ -58,7 +52,6 @@ class MeiTVApp:
         self.scrollbar2.pack(side="right", fill="y")
         self.sezon_listbox.config(yscrollcommand=self.scrollbar2.set)
 
-        # Bölüm listbox with scroll bar
         self.bolum_listbox_frame = tk.Frame(root, bg="#121212")
         self.bolum_listbox_frame.pack(pady=10)
 
@@ -119,11 +112,9 @@ class MeiTVApp:
     def link_olustur(self, dizi_adi, sezon_no, secilen_bolum):
         link = f"https://www.dizibox.plus/{dizi_adi.lower().replace(' ', '-')}-{sezon_no}-sezon-{secilen_bolum['episode_number']}-bolum-izle/2/"
 
-        # Linki source_link.py'ye yaz
         with open("source.txt", "w") as f:
             f.write(f"source_link = '{link}'\n")
 
-        # source_link.py dosyasını çalıştır
         print("\nsource_link.py çalıştırılıyor...")
         os.system("python3 source_link.py")
 

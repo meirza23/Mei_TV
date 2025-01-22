@@ -1,18 +1,15 @@
-# -*- coding: utf-8 -*-
 import subprocess
 
-# Dosyadaki linki oku
 def get_player_link(file_path):
     """Dosyadaki video linkini oku."""
     try:
         with open(file_path, "r") as f:
-            link = f.read().strip()  # Dosyadaki linki oku ve boşlukları temizle
+            link = f.read().strip() 
         return link if link else None
     except FileNotFoundError:
         print(f"Error: {file_path} bulunamadı!")
         return None
-
-# Linki çözümle ve medya URL'sini döndür
+    
 def resolve_media_url(link):
     """Verilen linki çözümleyip medya URL'sini döndür."""
     try:
@@ -42,13 +39,11 @@ def play_with_mpv(media_url):
     try:
         print(f"mpv ile oynatılıyor: {media_url}")
         
-        # Hata ayıklama log dosyasına yazma
         result = subprocess.run(
             ["mpv", "--no-terminal", "--log-file=mpv_log.txt", "--msg-level=all=debug", media_url],
             check=True, capture_output=True, text=True
         )
         
-        # Eğer mpv'nin çıktısı hata içeriyorsa, hata mesajlarını göster ve orijinal link ile dene
         if result.returncode != 0 or result.stderr:
             print(f"Error: mpv hatası (returncode): {result.returncode}")
             print(f"Error: mpv hatası (stderr): {result.stderr}")
@@ -61,22 +56,19 @@ def play_with_mpv(media_url):
         print(f"Error: mpv çalıştırılırken bir hata oluştu (stderr): {e.stderr}")
         print(f"Error: mpv çalıştırılırken bir hata oluştu (stdout): {e.stdout}")
         print("Doğrudan orijinal link ile oynatmayı deniyoruz...")
-        play_with_mpv(original_link)  # Orijinal link ile oynatmayı dene
+        play_with_mpv(original_link)  
     except Exception as e:
         print(f"Error: Beklenmeyen bir hata oluştu: {e}")
-        raise e  # Hata durumu daha üst katmana iletilir
+        raise e 
 
-# Ana program
 if __name__ == "__main__":
-    file_path = "player_link.txt"  # Dinamik olarak dosyadan okuma
+    file_path = "player_link.txt"  
 
-    # Linki dosyadan oku
     original_link = get_player_link(file_path)
 
     if original_link:
         print(f"Okunan link: {original_link}")
 
-        # Linki çözümle
         media_url = resolve_media_url(original_link)
 
         if media_url:
