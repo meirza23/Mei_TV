@@ -6,7 +6,7 @@ from tkinter import font as tkfont
 import source_link
 import player
 
-API_KEY = 'f2ea016667d4fecf9a4a64e77a927b35'
+API_KEY = 'YOUR_TMDB_API_KEY'
 
 class MeiTVApp:
     def __init__(self, root):
